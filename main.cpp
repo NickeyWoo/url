@@ -23,7 +23,7 @@ struct URL
 };
 
 std::string strContent;
-boost::regex stUrlFormatRegex("^([a-zA-Z0-9]+)://([^/]+)(/?[\\w\\W]*)$");
+boost::regex stUrlFormatRegex("^([a-zA-Z0-9]+)://([^/]+)(/?[\\w\\W]*)$", boost::regex::normal|boost::regex::icase);
 URL stBaseUrl;
 
 int GetUrl(const char* szUrl, URL* pstUrl)
@@ -46,7 +46,7 @@ int GetUrl(const char* szUrl, URL* pstUrl)
 
 std::string FixUrl(std::string strUrl)
 {
-	boost::regex stScriptRegex("^([a-zA-Z0-9]+):[\\w\\W]*$");
+	boost::regex stScriptRegex("^([a-zA-Z0-9]+):[\\w\\W]*$", boost::regex::normal|boost::regex::icase);
 	boost::smatch what;
 	if(!boost::regex_search(strUrl, what, stUrlFormatRegex))
 	{
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 
 	HashTable<u_int64_t, u_int32_t> stDict = HashTable<u_int64_t, u_int32_t>::CreateHashTable(1000, 10);
 
-	boost::regex stUrlRegex("href=\"?'?([^ \"'>#]+)\"?'?|src=\"?'?([^ \"'>#]+)\"?'?");
+	boost::regex stUrlRegex("<a [^<>]*href=\"?'?([^ \"'>#]+)\"?'?[^<>]*>|<i?frame [^<>]*src=\"?'?([^ \"'>#]+)\"?'?[^<>]*>", boost::regex::normal|boost::regex::icase);
 	boost::sregex_iterator end;
 	for(boost::sregex_iterator iter = boost::make_regex_iterator(strContent, stUrlRegex);
 		iter != end;
