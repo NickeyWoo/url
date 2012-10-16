@@ -10,6 +10,7 @@
 
 #include <boost/format.hpp>
 #include <boost/regex.hpp>
+#include <boost/algorithm/string.hpp>
 
 // google cityhash
 #include <city.h>
@@ -141,6 +142,7 @@ int main(int argc, char* argv[])
 			continue;
 
 		*stDict.Hash(ddwUrlId) = 1;
+		boost::trim(strUrl);
 		printf("%s\n", strUrl.c_str());
 	}
 
